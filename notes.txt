@@ -1,0 +1,15 @@
+Component1: basic view, default props
+Component2: touchable highlight, touchable opacity, onpress, styling
+Component3: text input, switch, onchangetext, onsubmitediting
+Component4: listview
+Component5: fetching data from an api
+Component6: Navigating between scenes
+
+
+Useful elements:
+
+Navigation
+Touchable highlight
+TextInput
+Switch
+Styling
