@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 
-import { MakeSound } from './app/sound';
+import {MakeASimpleSound} from './app/sound'
 
 export default class App extends React.Component {
   render() {
-    return <MakeSound />;
+    return <MakeASimpleSound />;
   }
 }
 
