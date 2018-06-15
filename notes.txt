@@ -13,3 +13,7 @@ Touchable highlight
 TextInput
 Switch
 Styling
+
+Dimensions: 568 / 320
+
+Later (if time) // make it so many different sized phones!

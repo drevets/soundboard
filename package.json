@@ -22,8 +22,9 @@
     "create-react-class": "^15.6.3",
     "expo": "^27.0.1",
     "react": "16.3.1",
-    "react-native": "~0.55.2",
+    "react-native": "0.55.2",
     "react-native-deprecated-custom-components": "^0.1.2",
+    "react-native-fs": "^2.10.14",
     "watchman": "^1.0.0"
   }
 }

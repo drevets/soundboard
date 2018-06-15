@@ -1,19 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import { Navigator } from 'react-native-deprecated-custom-components';
-import {PanResponerExample} from './app/sound'
+import {SoundBoardMain} from './app/main'
 
 export default class App extends React.Component {
   render() {
-    return <Component1/>;
+    return <SoundBoardMain />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
