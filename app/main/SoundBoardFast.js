@@ -28,21 +28,21 @@ import {glassSounds, yamaha} from './data'
 
 
 //the below is working
-const yamahaSounds = yamaha.map(async sound => {
-  const expoSound = new Audio.Sound();
-  await expoSound.loadAsync({
-    uri: sound
-  })
-  return expoSound
-})
-const resolvePromise = (arr) => {
-  console.log('resolving promise...')
-  return Promise.all(arr).then((values) => {
-    console.log('values', values)
-  })
-}
+// const yamahaSounds = yamaha.map(async sound => {
+//   const expoSound = new Audio.Sound();
+//   await expoSound.loadAsync({
+//     uri: sound
+//   })
+//   return expoSound
+// })
+// const resolvePromise = (arr) => {
+//   console.log('resolving promise...')
+//   return Promise.all(arr).then((values) => {
+//     console.log('values', values)
+//   })
+// }
 
-resolvePromise(yamahaSounds)
+// resolvePromise(yamahaSounds)
 
 export default class SoundBoardMain extends React.Component {
   // constructor() {
