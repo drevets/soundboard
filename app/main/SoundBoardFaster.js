@@ -9,20 +9,56 @@ import {
   PanResponder,
 } from 'react-native';
 import { Audio } from 'expo';
-import {glassSounds, yamaha} from './data'
+import {glassSounds, yamaha, madeSounds} from './data'
 
-//piano bang
-const soundOnDeck = 'https://s3.us-east-2.amazonaws.com/soundandcolor/2489__jobro__piano-ff/39148__jobro__piano-ff-001.wav'
+// const makeSounds = (soundArray) => {
+//   soundArray = soundArray.map(async sound => {
+//     const expoSound = new Audio.Sound();
+//     await expoSound.loadAsync({
+//       uri: sound
+//     })
+//     return expoSound
+//   })
+//   Promise.all(soundArray).then(sounds => {
+//     console.log('sounds', sounds)
+//   })
+// }
 
-//soft sound
-const sound = 'https://s3.us-east-2.amazonaws.com/soundandcolor/17246__modularsamples__arturia-microbrute-short-and-sensetive/281693__modularsamples__arturia-microbrute-short-and-sensetive-c2-36c1-yafk.aiff'
+// makeSounds(yamaha)
 
-const soundOption = 'https://s3.us-east-2.amazonaws.com/soundandcolor/12718__aikighost__abstract-percussion-loops/198996__aikighost__elctroid-125bpm01-loopcache-abstractpercussion.wav'
+// const yamahaSounds = yamaha.map(async sound => {
+//   const expoSound = new Audio.Sound();
+//   await expoSound.loadAsync({
+//     uri: sound
+//   })
+//   return expoSound
+// })
+// const resolvePromise = (arr) => {
+//   return Promise.all(arr).then((values) => {
+//     console.log('values', values)
+//   })
+// }
 
+// const maybeResolved = resolvePromise(yamahaSounds)
 
-export default class SoundBoardMain extends React.Component {
+// console.log('maybeResolved', maybeResolved)
+// makeSounds = () => {
+//   const yamahaSounds = yamaha.map( async sound => {
+//     const newSound = new Audio.Sound
+//     await newSound.loadAsync({
+//       uri: sound
+//     })
+//     return newSound
+//   })
+//   this.audios = yamahaSounds
+//   console.log('this.audios', this.audios)
+// }
+
+export default class SoundBoardFaster extends React.Component {
   constructor() {
     super();
+    this.counter = 0
+    this.audios = [];
     this.state = {
       soundObject: {},
     };
@@ -74,50 +110,61 @@ export default class SoundBoardMain extends React.Component {
       }
 
       //creates a new sound object and then sets it on state, then loads it with sound
+    // async componentDidMount() {
+    //   const soundObject = new Audio.Sound();
+    //   this.setState({
+    //     soundObject: soundObject}, () => {
+    //     this.loadSource(this.randomSound(yamaha))
+    //   })
+    // }
     async componentDidMount() {
-      const soundObject = new Audio.Sound();
-      this.setState({
-        soundObject: soundObject}, () => {
-        this.loadSource(this.randomSound(yamaha))
+      console.log('component did mounting....')
+      //make a bunch of sounds in here and make them equal to this.audios
+      this.setState({soundObject: this.audios[0]}, () => {
+        console.log('this.state', this.state)
       })
     }
 
-      randomSound = (sounds) => {
-        const soundsLength = sounds.length - 1;
-        const randomNumber = Math.floor(Math.random() * soundsLength)
-        return sounds[randomNumber]
-      }
+      // randomSound = (sounds) => {
+      //   const soundsLength = sounds.length - 1;
+      //   const randomNumber = Math.floor(Math.random() * soundsLength)
+      //   return sounds[randomNumber]
+      // }
 
-      loadSource = async (sound) => {
-        console.log('loading sources...')
-        try {
-          await this.state.soundObject.loadAsync({
-            uri: sound
-          });
-        } catch (err) {
-          console.log('something went wrong while loading sources')
-        }
-      }
+      // loadSource = async (sound) => {
+      //   console.log('loading sources...')
+      //   try {
+      //     await this.state.soundObject.loadAsync({
+      //       uri: sound
+      //     });
+      //   } catch (err) {
+      //     console.log('something went wrong while loading sources')
+      //   }
+      // }
 
+    // play = async () => {
+    //   try {
+    //     await this.state.soundObject.playAsync();
+    //     await this.reload(this.randomSound(yamaha))
+    //     console.log('playing sound; the current state is: ', this.state)
+    //   } catch (error) {
+    //     console.log('error happened while playing song', error);
+    //   }
+    // };
     play = async () => {
       try {
         await this.state.soundObject.playAsync();
-        await this.reload(this.randomSound(yamaha))
-        console.log('playing sound; the current state is: ', this.state)
+        this.counter ++
+        if (this.counter < this.audios.length) this.reload(this.audios[this.counter])
       } catch (error) {
         console.log('error happened while playing song', error);
       }
     };
 
-    reload = async (newSoundSource) => {
+    reload = (newSound) => {
       console.log('reloading sound...')
-      const newSound = await new Audio.Sound()
-      await newSound.loadAsync({
-        uri: newSoundSource
-      })
       this.setState({soundObject: newSound})
     }
-
 
   render() {
     return (
