@@ -86,7 +86,7 @@ async componentDidMount() {
     this.setState({
       soundObject: soundObject, soundObjectOnDeck: soundObjectOnDeck
     }, () => {
-      this.loadSource(sound, soundOnDeck)
+      this.loadSource(this.randomSound(yamaha), this.randomSound(yamaha))
     })
   }
 
@@ -101,10 +101,10 @@ async componentDidMount() {
     console.log('loading sources...')
     try {
       await this.state.soundObject.loadAsync({
-        uri: this.randomSound(yahama)
+        uri: sound
       });
       await this.state.soundObjectOnDeck.loadAsync({
-        uri: this.randomSound(yamaha)
+        uri: soundOnDeck
       })
     } catch (err) {
       console.log('something went wrong while loading sources')

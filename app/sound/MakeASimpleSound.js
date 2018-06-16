@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Button } from 'react-native';
 import { Asset, Audio } from 'expo';
+import {yamaha} from '../main/data'
 
 const soundObject = new Audio.Sound();
 
@@ -8,7 +9,7 @@ const play = async () => {
   try {
     await soundObject.loadAsync({
       uri:
-        'https://s3.amazonaws.com/exp-us-standard/audio/playlist-example/Comfort_Fit_-_03_-_Sorry.mp3',
+        yamaha[1],
     });
     await soundObject.playAsync();
   } catch (error) {
