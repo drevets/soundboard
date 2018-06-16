@@ -9,20 +9,26 @@ import {
   PanResponder,
 } from 'react-native';
 import { Audio } from 'expo';
+import {glassSounds, yamaha} from './data'
 
-const soundOnDeck = 'https://s3.amazonaws.com/exp-us-standard/audio/playlist-example/Comfort_Fit_-_03_-_Sorry.mp3'
+//piano bang
+const soundOnDeck = 'https://s3.us-east-2.amazonaws.com/soundandcolor/2489__jobro__piano-ff/39148__jobro__piano-ff-001.wav'
 
+//soft sound
 const sound = 'https://s3.us-east-2.amazonaws.com/soundandcolor/17246__modularsamples__arturia-microbrute-short-and-sensetive/281693__modularsamples__arturia-microbrute-short-and-sensetive-c2-36c1-yafk.aiff'
+
+const soundOption = 'https://s3.us-east-2.amazonaws.com/soundandcolor/12718__aikighost__abstract-percussion-loops/198996__aikighost__elctroid-125bpm01-loopcache-abstractpercussion.wav'
 
 
 export default class SoundBoardMain extends React.Component {
   constructor() {
     super();
-    this.soundObject = new Audio.Sound();
-    this.soundObjectOnDeck = new Audio.Sound();
     this.state = {
       playing: false,
       isTheSoundOnDeck: false,
+      soundObject: {},
+      soundObjectOnDeck: {},
+      previousSoundObject: {}
     };
   }
 
@@ -52,7 +58,6 @@ export default class SoundBoardMain extends React.Component {
       _handlePanResponderGrant = (evt, gestureState) => {
         // gesture has started. Give user visual feedback. gestureState.d{x,y} set to 0 now
         this.play();
-
         console.log('panResponderGrant event:', evt, 'gestureState', gestureState, );
         const ox = gestureState.x0
         const oy = gestureState.y0
@@ -72,20 +77,34 @@ export default class SoundBoardMain extends React.Component {
         return true;
       }
 
+      //creates two new sound objects and then sets them on state, then loads them with sounds
 async componentDidMount() {
     const { height, width } = Dimensions.get('window');
     console.log('app rendered on device: height and width', height, width);
-    this.loadSource(sound, soundOnDeck)
+    const soundObject = new Audio.Sound();
+    const soundObjectOnDeck = new Audio.Sound();
+    this.setState({
+      soundObject: soundObject, soundObjectOnDeck: soundObjectOnDeck
+    }, () => {
+      this.loadSource(sound, soundOnDeck)
+    })
   }
+
+  randomSound = (sounds) => {
+    const soundsLength = sounds.length - 1;
+    const randomNumber = Math.floor(Math.random() * soundsLength)
+    return sounds[randomNumber]
+  }
+
 
   loadSource = async (sound, soundOnDeck) => {
     console.log('loading sources...')
     try {
-      await this.soundObject.loadAsync({
-        uri: sound
+      await this.state.soundObject.loadAsync({
+        uri: this.randomSound(yahama)
       });
-      await this.soundObjectOnDeck.loadAsync({
-        uri: soundOnDeck
+      await this.state.soundObjectOnDeck.loadAsync({
+        uri: this.randomSound(yamaha)
       })
     } catch (err) {
       console.log('something went wrong while loading sources')
@@ -93,62 +112,67 @@ async componentDidMount() {
   }
 
   //find out which sound to play
-  //a little confused about my logic here
   whichSound = () => {
-    console.log('determining which sound to play')
-    let currentSound = this.soundObject;
-    let prevSound = this.soundObjectOnDeck
-    if (this.state.isTheSoundonDeck) {
-      currentSound = this.soundObjectOnDeck
-      prevSound = this.soundObject
-      this.setState({isTheSoundOnDeck: false})
-    } else this.setState({isTheSoundOnDeck: true})
-    console.log('currentSound', currentSound, 'prevSound', prevSound)
-    return [currentSound, prevSound]
+    if (this.state.isTheSoundOnDeck) {
+      this.setState({isTheSoundOnDeck: true})
+      return [this.state.soundObjectOnDeck, this.state.soundObject]
+    }
+    else {
+      this.setState({isTheSoundOnDeck: true})
+      return [this.state.soundObject, this.state.soundObjectOnDeck]
+    }
   }
 
   //is a sound playing right now?
   isPlaying = () => {
     console.log('checking to see if a sound is playing')
     if (this.state.playing) return true
-    else this.setState({playing: true})
-    return false
+    else {
+      this.setState({playing: true})
+      return false
+    }
   }
 
   //play the right sound and reload the former sound
   play = async () => {
-    console.log('attempting to play sound')
     const [currentSound, prevSound] = this.whichSound()
     const soundPlaying = this.isPlaying()
+    console.log('is a sound playing?', soundPlaying)
     try {
-      console.log('checking to see if a sound is playing')
       if (soundPlaying) {
-        await this.stop(prevSound)
-        await this.reload(prevSound, soundOnDeck)
+        console.log('stopping sound')
+        await this.stop()
       }
       await currentSound.playAsync();
-      await this.reload(currentSound, soundOnDeck)
-      console.log('playing sound')
+      this.setState({previousSoundObject: currentSound})
+      console.log('playing sound; the current state is: ', this.state)
     } catch (error) {
       console.log('error happened while playing song', error);
     }
   };
 
+  //stops the sound and sets the reload with a sound from above
+  stop = async () => {
+    console.log('attempting to stop sound')
+    await this.state.previousSoundObject.stopAsync();
+    await this.reload(this.randomSound(yamaha))
+  };
+
   //reloads sound object with new sound
-  reload = async (soundObject, newSound) => {
+  reload = async (newSoundSource) => {
     console.log('reloading sound...')
-    await soundObject.unloadAsync()
-    await soundObject.loadAsync({
-      uri: newSound
+    const newSound = await new Audio.Sound()
+    await newSound.loadAsync({
+      uri: this.randomSound(yamaha)
+    })
+    this.setState((prevState) => {
+      return {
+        soundObject: prevState.soundObjectOnDeck, soundObjectOnDeck: newSound
+      }
+    }, () => {
+      console.log('reset state with a new sound. now, here is our state:', this.state)
     })
   }
-
-  //stops the sound
-  stop = async (prevSound) => {
-    console.log('attempting to stop sound')
-    await prevSound.stopAsync();
-    await prevSound.unloadAsync()
-  };
 
 
   render() {
