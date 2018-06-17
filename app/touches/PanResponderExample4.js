@@ -3,7 +3,7 @@
 var React = require('react');
 var createReactClass = require('create-react-class');
 var ReactNative = require('react-native');
-var {PanResponder, StyleSheet, View} = ReactNative;
+var {PanResponder, StyleSheet, View, Image} = ReactNative;
 
 const happy = 'https://s3.us-east-2.amazonaws.com/soundandcolor/happy.png'
 
