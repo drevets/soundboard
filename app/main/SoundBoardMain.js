@@ -1,19 +1,21 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableHighlight,
-  Button,
-  Dimensions,
+  Image,
   PanResponder,
 } from 'react-native';
 import { Audio } from 'expo';
 import {glassSounds, yamaha} from './data'
 
-export default class SoundBoardFaster extends React.Component {
+//most recent version is from sound and color file
+
+export default class SoundBoardMain extends React.Component {
   constructor() {
     super();
+    this._panResponder = {}
+    this._previousLeft = 20
+    this._previousTop = 84
     this.state = {
       sounds: [],
       soundObject: {},
@@ -30,47 +32,69 @@ export default class SoundBoardFaster extends React.Component {
           onMoveShouldSetPanResponerCapture: (evt, gestureState) => true,
           onPanResponderGrant: this._handlePanResponderGrant,
           onPanResponderMove: this._handlePanResponderMove,
-          onPanResponderTerminationRequest: this._handleOnPanResponderTerminationRequest,
-          onPanResponderRelease: this._handleOnPanResponderRelease,
-          onPanResponderTerminate: this._handleOnPanResponderTerminate
+          onPanResponderRelease: this._handleOnPanResponderEnd,
+          onPanResponderTerminate: this._handleOnPanResponderEnd
         });
-      }
-
-      _handleOnPanResponderTerminate = (evt, gestureState) => {
-        //another component has become the responder, so this gesture should be cancelled
-      }
-
-      _handleOnPanResponderRelease  = (evt, gestureState) => {
-        //user has released all touches while this view is the responder, means gesture has succeeeded
-        console.log('panResponderRelease event:', evt, 'gestureState', gestureState )
+        this._imageStyles = {
+          style: {
+            left: this._previousLeft,
+            top: this._previousTop,
+            height: 60,
+            width: 60
+          }
+        }
       }
 
       _handlePanResponderGrant = (evt, gestureState) => {
-        // gesture has started. Give user visual feedback. gestureState.d{x,y} set to 0 now
+        //sound
         this.play();
-        console.log('panResponderGrant event:', evt, 'gestureState', gestureState, );
-        const ox = gestureState.x0
-        const oy = gestureState.y0
-        console.log('x', ox, 'y', oy)
+
+        //color
+        this._highlight();
+        this._imageStyles.style.left = gestureState.x0
+        this._imageStyles.style.top = gestureState.y0
+        this._previousLeft = gestureState.x0;
+        this._previousTop = gestureState.y0;
+        this._updateNativeStyles();
       };
 
       _handlePanResponderMove = (evt, gestureState) => {
-          //most recent move distance is gestureState.move{X,Y}
-          //accumulated gesture distance since becoming responder is gestureState.d{x,y}
-          const moveX = gestureState.moveX
-          const moveY = gestureState.moveY
-          console.log('moveX', moveX, 'moveY', moveY)
-          console.log('panResponderMove event:', evt, 'gestureState', gestureState );
+        //color
+          this._highlight();
+          this._imageStyles.style.left = this._previousLeft + gestureState.dx;
+          this._imageStyles.style.top = this._previousTop + gestureState.dy
+          this._updateNativeStyles();
       }
 
-      _handleOnPanResponderTerminationRequest = (evt, gestureState) => {
-        return true;
+      _handleOnPanResponderEnd = (evt, gestureState) => {
+        this._unHighlight();
+        this._previousLeft += gestureState.dx;
+        this._previousTop += gestureState.dy;
       }
+
+    _highlight = () => {
+      this._updateNativeStyles();
+    }
+
+    _unHighlight = () => {
+      this._updateNativeStyles();
+    }
+
+    setNativeProps = (nativeProps) => {
+      this._root.setNativeProps(nativeProps)
+    }
+
+    _updateNativeStyles = () => {
+      this.setNativeProps(this._imageStyles)
+    }
 
     async componentDidMount() {
-      console.log('component is mounting...')
+      console.log('component is mounting...you will need to wait about 30 seconds')
+      //color
+      this._updateNativeStyles()
+
+      //sound
       await this.makeSounds()
-      //make a bunch of sounds in here and make them equal to this.audios
       this.setState({soundObject: this.state.sounds[0]})
     }
 
@@ -228,7 +252,7 @@ export default class SoundBoardFaster extends React.Component {
       })
     }
 
-    //eventually would like to use this again
+    //eventually would like to use this again if I can figure out how to make reload faster and/or get more sounds on state
     // randomSound = (sounds) => {
     //     const soundsLength = sounds.length - 1;
     //     const randomNumber = Math.floor(Math.random() * soundsLength)
@@ -253,11 +277,18 @@ export default class SoundBoardFaster extends React.Component {
 
   render() {
     return (
-      <View {...this._panResponder.panHandlers} style={styles.container}>
-        <Text>Hello</Text>
-        <Text>Hello</Text>
-        <Text>Hello</Text>
-        <Text>Hello</Text>
+      <View style={styles.container}      {...this._panResponder.panHandlers}
+      >
+        <View ref={component => this._root = component} {...this.props}
+        {...this._panResponder.panHandlers}
+        >
+        <Image
+          source={{
+            uri: 'https://s3.us-east-2.amazonaws.com/soundandcolor/happy.png',
+          }}
+          style={{ width: this._imageStyles.style.width, height: this._imageStyles.style.height }}
+        />
+        </View>
       </View>
     );
   }
@@ -265,14 +296,7 @@ export default class SoundBoardFaster extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    borderWidth: 2,
-    justifyContent: 'space-evenly',
-    flexWrap: 'wrap',
-  },
-  text: {
-    padding: 50,
+    flex: 1,
   },
 });
+

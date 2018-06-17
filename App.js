@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import {SoundBoardMain} from './app/main'
+import {FartMode} from './app/main'
 import {SoundBoardFaster} from './app/main'
 import {SoundAndColor} from './app/main'
 import {MakeASimpleSound} from './app/sound'
@@ -13,6 +14,6 @@ import {MovingImage} from './app/color'
 
 export default class App extends React.Component {
   render() {
-    return <SoundAndColor/>;
+    return <FartMode/>;
   }
 }

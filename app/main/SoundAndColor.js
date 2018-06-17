@@ -44,37 +44,24 @@ export default class SoundAndColor extends React.Component {
       }
 
       _handlePanResponderGrant = (evt, gestureState) => {
-        // gesture has started. Give user visual feedback. gestureState.d{x,y} set to 0 now
+        //sound
         this.play();
+
+        //color
         this._highlight();
         this._imageStyles.style.left = gestureState.x0
         this._imageStyles.style.top = gestureState.y0
         this._previousLeft = gestureState.x0;
         this._previousTop = gestureState.y0;
         this._updateNativeStyles();
-
-        console.log('GRANT: panResponderGrant event:', evt, 'gestureState', gestureState, );
-        const ox = gestureState.x0
-        const oy = gestureState.y0
-        console.log('x', ox, 'y', oy)
       };
 
       _handlePanResponderMove = (evt, gestureState) => {
-          //most recent move distance is gestureState.move{X,Y}
-          //accumulated gesture distance since becoming responder is gestureState.d{x,y}
+        //color
           this._highlight();
           this._imageStyles.style.left = this._previousLeft + gestureState.dx;
           this._imageStyles.style.top = this._previousTop + gestureState.dy
           this._updateNativeStyles();
-
-          const moveX = gestureState.moveX
-          const moveY = gestureState.moveY
-          console.log('moveX', moveX, 'moveY', moveY)
-          console.log('MOVE: panResponderMove event:', evt, 'gestureState', gestureState );
-      }
-
-      _handleOnPanResponderTerminationRequest = (evt, gestureState) => {
-        return true;
       }
 
       _handleOnPanResponderEnd = (evt, gestureState) => {
@@ -100,10 +87,12 @@ export default class SoundAndColor extends React.Component {
     }
 
     async componentDidMount() {
-      console.log('component is mounting...')
+      console.log('component is mounting...you will need to wait about 30 seconds')
+      //color
       this._updateNativeStyles()
+
+      //sound
       await this.makeSounds()
-      //make a bunch of sounds in here and make them equal to this.audios
       this.setState({soundObject: this.state.sounds[0]})
     }
 
@@ -261,7 +250,7 @@ export default class SoundAndColor extends React.Component {
       })
     }
 
-    //eventually would like to use this again
+    //eventually would like to use this again if I can figure out how to make reload faster and/or get more sounds on state
     // randomSound = (sounds) => {
     //     const soundsLength = sounds.length - 1;
     //     const randomNumber = Math.floor(Math.random() * soundsLength)
