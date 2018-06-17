@@ -14,6 +14,6 @@ import {MovingImage} from './app/color'
 
 export default class App extends React.Component {
   render() {
-    return <FartMode/>;
+    return <FartMode />;
   }
 }

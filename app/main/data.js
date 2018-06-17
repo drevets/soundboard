@@ -1,4 +1,14 @@
-import {Audio} from 'expo'
+export const farts = [
+  'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/110039__sandyrb__fart-001.wav',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/114723__bernd666__fart-6.mp3',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/163378__under7dude__fart-1.wav',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/195798__lapacipi__fart1.wav',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/234284__leosalom__fart.wav',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/320778__inqvision__realistic-fart-angry-russian.mp3',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/37852__ifartinurgeneraldirection__space-fart.wav',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/402628__inspectorj__whoopee-cushion-long-a.wav',
+'https://s3.us-east-2.amazonaws.com/soundandcolor/farts/94989__doubledeanart__bad-chili-fart.wav'
+]
 
 export const glassSounds = [
   'https://s3.us-east-2.amazonaws.com/soundandcolor/4__anton__glass/15__anton__glass-a-ff.wav',

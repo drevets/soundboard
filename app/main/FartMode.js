@@ -8,9 +8,13 @@ import {
   Text,
 } from 'react-native';
 import { Audio } from 'expo';
-import { glassSounds, yamaha } from './data';
+import { glassSounds, yamaha, farts } from './data';
 
 //most recent version is from sound and color file
+
+const poo = 'https://s3.us-east-2.amazonaws.com/soundandcolor/poo.png';
+
+const smiley = 'https://s3.us-east-2.amazonaws.com/soundandcolor/happy.png';
 
 export default class FartMode extends React.Component {
   constructor() {
@@ -323,8 +327,61 @@ export default class FartMode extends React.Component {
   onSwitchChange = value => {
     this.setState({
       fartMode: value,
+    }, () => {
+      this.enteringFartMode()
     });
   };
+
+  enteringFartMode = () => {
+    console.log('calling the function entering fart mode')
+    if (this.state.fartMode) {
+      console.log('fart mode entered')
+      const audio0 = new Audio.Sound();
+      await audio0.loadAsync({
+        uri: farts[0],
+      });
+      const audio1 = new Audio.Sound();
+      await audio1.loadAsync({
+        uri: farts[1],
+      });
+      const audio2 = new Audio.Sound();
+      await audio2.loadAsync({
+        uri: farts[2],
+      });
+      const audio3 = new Audio.Sound();
+      await audio3.loadAsync({
+        uri: farts[3],
+      });
+      const audio4 = new Audio.Sound();
+      await audio4.loadAsync({
+        uri: farts[4],
+      });
+      const audio5 = new Audio.Sound();
+      await audio5.loadAsync({
+        uri: farts[5],
+      });
+      const audio6 = new Audio.Sound();
+      await audio6.loadAsync({
+        uri: farts[6],
+      });
+      const audios = [
+        audio0,
+        audio1,
+        audio2,
+        audio3,
+        audio4,
+        audio5,
+        audio6]
+      this.setState({
+        sounds: audios
+      }, () => {
+        console.log('put fart sounds on state', this.state.sounds)
+      })
+    } else {
+      console.log('false alarm. No need to enter fart mode.')
+      this.makeSounds()
+    }
+  }
 
   render() {
     return (
@@ -336,7 +393,7 @@ export default class FartMode extends React.Component {
         >
           <Image
             source={{
-              uri: 'https://s3.us-east-2.amazonaws.com/soundandcolor/happy.png',
+              uri: this.state.fartMode ? poo : smiley,
             }}
             style={{
               width: this._imageStyles.style.width,
@@ -365,6 +422,6 @@ const styles = StyleSheet.create({
   },
   fartText: {
     left: 132,
-    top: 413
-  }
+    top: 413,
+  },
 });
