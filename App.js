@@ -11,9 +11,11 @@ import {PanResponderExample4} from './app/touches'
 import {PanResponderExample5} from './app/touches'
 import {StaticImage} from './app/color'
 import {MovingImage} from './app/color'
+import {DraggingSoundAndColor} from './app/main'
+import {AnimatedImages} from './app/color'
 
 export default class App extends React.Component {
   render() {
-    return <FartMode />;
+    return <AnimatedImages />;
   }
 }

@@ -22,6 +22,7 @@ export default class FartMode extends React.Component {
     this._panResponder = {};
     this._previousLeft = 20;
     this._previousTop = 84;
+    this._moveCount = 0;
     this.state = {
       sounds: [],
       soundObject: {},
@@ -68,15 +69,28 @@ export default class FartMode extends React.Component {
   _handlePanResponderMove = (evt, gestureState) => {
     //color
     this._highlight();
+    this._moveCount++;
+
+    //sound
+    if (this._moveCount === 30) {
+      this._moveCount = 0;
+      if (!this.state.fartMode) this.play();
+    }
     this._imageStyles.style.left = this._previousLeft + gestureState.dx;
     this._imageStyles.style.top = this._previousTop + gestureState.dy;
     this._updateNativeStyles();
+    console.log('move count', this._moveCount);
   };
 
   _handleOnPanResponderEnd = (evt, gestureState) => {
     this._unHighlight();
     this._previousLeft += gestureState.dx;
     this._previousTop += gestureState.dy;
+
+    if (this._moveCount > 0 && this._moveCount < 30 && !this.state.fartMode) {
+      this.play()
+    }
+    this._moveCount = 0
   };
 
   _highlight = () => {
@@ -152,106 +166,106 @@ export default class FartMode extends React.Component {
     await audio10.loadAsync({
       uri: yamaha[10],
     });
-    const audio11 = new Audio.Sound();
-    await audio11.loadAsync({
-      uri: yamaha[11],
-    });
-    const audio12 = new Audio.Sound();
-    await audio12.loadAsync({
-      uri: yamaha[12],
-    });
-    const audio13 = new Audio.Sound();
-    await audio13.loadAsync({
-      uri: yamaha[13],
-    });
-    const audio14 = new Audio.Sound();
-    await audio14.loadAsync({
-      uri: yamaha[14],
-    });
-    const audio15 = new Audio.Sound();
-    await audio15.loadAsync({
-      uri: yamaha[15],
-    });
-    const audio16 = new Audio.Sound();
-    await audio16.loadAsync({
-      uri: yamaha[16],
-    });
-    const audio17 = new Audio.Sound();
-    await audio17.loadAsync({
-      uri: yamaha[17],
-    });
-    const audio18 = new Audio.Sound();
-    await audio18.loadAsync({
-      uri: yamaha[18],
-    });
-    const audio19 = new Audio.Sound();
-    await audio19.loadAsync({
-      uri: yamaha[19],
-    });
-    const audio20 = new Audio.Sound();
-    await audio20.loadAsync({
-      uri: yamaha[20],
-    });
-    const audio21 = new Audio.Sound();
-    await audio21.loadAsync({
-      uri: yamaha[21],
-    });
-    const audio22 = new Audio.Sound();
-    await audio22.loadAsync({
-      uri: yamaha[22],
-    });
-    const audio23 = new Audio.Sound();
-    await audio23.loadAsync({
-      uri: yamaha[23],
-    });
-    const audio24 = new Audio.Sound();
-    await audio24.loadAsync({
-      uri: yamaha[24],
-    });
-    const audio25 = new Audio.Sound();
-    await audio25.loadAsync({
-      uri: yamaha[25],
-    });
-    const audio26 = new Audio.Sound();
-    await audio26.loadAsync({
-      uri: yamaha[26],
-    });
-    const audio27 = new Audio.Sound();
-    await audio27.loadAsync({
-      uri: yamaha[27],
-    });
-    const audio28 = new Audio.Sound();
-    await audio28.loadAsync({
-      uri: yamaha[28],
-    });
-    const audio29 = new Audio.Sound();
-    await audio29.loadAsync({
-      uri: yamaha[29],
-    });
-    const audio30 = new Audio.Sound();
-    await audio30.loadAsync({
-      uri: yamaha[30],
-    });
-    const audio31 = new Audio.Sound();
-    await audio31.loadAsync({
-      uri: yamaha[31],
-    });
-    const audio32 = new Audio.Sound();
-    await audio32.loadAsync({
-      uri: yamaha[32],
-    });
-    const audio33 = new Audio.Sound();
-    await audio33.loadAsync({
-      uri: yamaha[33],
-    });
-    const audio34 = new Audio.Sound();
-    await audio34.loadAsync({
-      uri: yamaha[34],
-    });
-    const audio35 = new Audio.Sound();
-    await audio35.loadAsync({
-      uri: yamaha[35],
-    });
+    // const audio11 = new Audio.Sound();
+    // await audio11.loadAsync({
+    //   uri: yamaha[11],
+    // });
+    // const audio12 = new Audio.Sound();
+    // await audio12.loadAsync({
+    //   uri: yamaha[12],
+    // });
+    // const audio13 = new Audio.Sound();
+    // await audio13.loadAsync({
+    //   uri: yamaha[13],
+    // });
+    // const audio14 = new Audio.Sound();
+    // await audio14.loadAsync({
+    //   uri: yamaha[14],
+    // });
+    // const audio15 = new Audio.Sound();
+    // await audio15.loadAsync({
+    //   uri: yamaha[15],
+    // });
+    // const audio16 = new Audio.Sound();
+    // await audio16.loadAsync({
+    //   uri: yamaha[16],
+    // });
+    // const audio17 = new Audio.Sound();
+    // await audio17.loadAsync({
+    //   uri: yamaha[17],
+    // });
+    // const audio18 = new Audio.Sound();
+    // await audio18.loadAsync({
+    //   uri: yamaha[18],
+    // });
+    // const audio19 = new Audio.Sound();
+    // await audio19.loadAsync({
+    //   uri: yamaha[19],
+    // });
+    // const audio20 = new Audio.Sound();
+    // await audio20.loadAsync({
+    //   uri: yamaha[20],
+    // });
+    // const audio21 = new Audio.Sound();
+    // await audio21.loadAsync({
+    //   uri: yamaha[21],
+    // });
+    // const audio22 = new Audio.Sound();
+    // await audio22.loadAsync({
+    //   uri: yamaha[22],
+    // });
+    // const audio23 = new Audio.Sound();
+    // await audio23.loadAsync({
+    //   uri: yamaha[23],
+    // });
+    // const audio24 = new Audio.Sound();
+    // await audio24.loadAsync({
+    //   uri: yamaha[24],
+    // });
+    // const audio25 = new Audio.Sound();
+    // await audio25.loadAsync({
+    //   uri: yamaha[25],
+    // });
+    // const audio26 = new Audio.Sound();
+    // await audio26.loadAsync({
+    //   uri: yamaha[26],
+    // });
+    // const audio27 = new Audio.Sound();
+    // await audio27.loadAsync({
+    //   uri: yamaha[27],
+    // });
+    // const audio28 = new Audio.Sound();
+    // await audio28.loadAsync({
+    //   uri: yamaha[28],
+    // });
+    // const audio29 = new Audio.Sound();
+    // await audio29.loadAsync({
+    //   uri: yamaha[29],
+    // });
+    // const audio30 = new Audio.Sound();
+    // await audio30.loadAsync({
+    //   uri: yamaha[30],
+    // });
+    // const audio31 = new Audio.Sound();
+    // await audio31.loadAsync({
+    //   uri: yamaha[31],
+    // });
+    // const audio32 = new Audio.Sound();
+    // await audio32.loadAsync({
+    //   uri: yamaha[32],
+    // });
+    // const audio33 = new Audio.Sound();
+    // await audio33.loadAsync({
+    //   uri: yamaha[33],
+    // });
+    // const audio34 = new Audio.Sound();
+    // await audio34.loadAsync({
+    //   uri: yamaha[34],
+    // });
+    // const audio35 = new Audio.Sound();
+    // await audio35.loadAsync({
+    //   uri: yamaha[35],
+    // });
     const audios = [
       audio0,
       audio1,
@@ -264,35 +278,36 @@ export default class FartMode extends React.Component {
       audio8,
       audio9,
       audio10,
-      audio11,
-      audio2,
-      audio13,
-      audio14,
-      audio15,
-      audio16,
-      audio17,
-      audio18,
-      audio19,
-      audio20,
-      audio21,
-      audio22,
-      audio23,
-      audio24,
-      audio25,
-      audio26,
-      audio27,
-      audio28,
-      audio29,
-      audio30,
-      audio31,
-      audio32,
-      audio33,
-      audio34,
-      audio35,
+      // audio11,
+      // audio2,
+      // audio13,
+      // audio14,
+      // audio15,
+      // audio16,
+      // audio17,
+      // audio18,
+      // audio19,
+      // audio20,
+      // audio21,
+      // audio22,
+      // audio23,
+      // audio24,
+      // audio25,
+      // audio26,
+      // audio27,
+      // audio28,
+      // audio29,
+      // audio30,
+      // audio31,
+      // audio32,
+      // audio33,
+      // audio34,
+      // audio35,
     ];
     this.setState(
       {
         sounds: audios,
+        soundObject: audios[0]
       },
       () => {
         console.log('put sounds on state', this.state.sounds);
@@ -312,7 +327,7 @@ export default class FartMode extends React.Component {
     try {
       await this.state.soundObject.playAsync();
       this.state.count++;
-      if (this.state.count < this.state.sounds.length)
+      if (this.state.count < this.state.sounds.length || this.state.fartMode)
         this.reload(this.state.sounds[this.state.count]);
     } catch (error) {
       console.log('error happened while playing song', error);
@@ -325,17 +340,23 @@ export default class FartMode extends React.Component {
   };
 
   onSwitchChange = value => {
-    this.setState({
-      fartMode: value,
-    }, () => {
-      this.enteringFartMode()
-    });
+    this.setState(
+      {
+        fartMode: value,
+      },
+      () => {
+        this.enteringFartMode();
+      }
+    );
   };
 
-  enteringFartMode = () => {
-    console.log('calling the function entering fart mode')
+  enteringFartMode = async () => {
+    console.log('calling the function entering fart mode');
+    this.setState({
+      count: 0,
+    });
     if (this.state.fartMode) {
-      console.log('fart mode entered')
+      console.log('fart mode entered');
       const audio0 = new Audio.Sound();
       await audio0.loadAsync({
         uri: farts[0],
@@ -364,24 +385,21 @@ export default class FartMode extends React.Component {
       await audio6.loadAsync({
         uri: farts[6],
       });
-      const audios = [
-        audio0,
-        audio1,
-        audio2,
-        audio3,
-        audio4,
-        audio5,
-        audio6]
-      this.setState({
-        sounds: audios
-      }, () => {
-        console.log('put fart sounds on state', this.state.sounds)
-      })
+      const audios = [audio0, audio1, audio2, audio3, audio4, audio5, audio6];
+      this.setState(
+        {
+          soundObject: audios[0],
+          sounds: audios.slice(1),
+        },
+        () => {
+          console.log('put fart sounds on state', this.state.sounds);
+        }
+      );
     } else {
-      console.log('false alarm. No need to enter fart mode.')
-      this.makeSounds()
+      console.log('false alarm. No need to enter fart mode.');
+      this.makeSounds();
     }
-  }
+  };
 
   render() {
     return (
