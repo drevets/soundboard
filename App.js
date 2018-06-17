@@ -13,9 +13,11 @@ import {StaticImage} from './app/color'
 import {MovingImage} from './app/color'
 import {DraggingSoundAndColor} from './app/main'
 import {AnimatedImages} from './app/color'
+import {AnimatedImages2} from './app/color'
+import {AnimatedFartMode} from './app/main'
 
 export default class App extends React.Component {
   render() {
-    return <AnimatedImages />;
+    return <SoundBoardMain />;
   }
 }

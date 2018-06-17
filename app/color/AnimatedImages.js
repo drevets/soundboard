@@ -29,8 +29,8 @@ export default class AnimatedImages extends React.Component {
       <View style={styles.container}>
         <Animated.Image
           style={{
-            width: 227,
-            height: 200,
+            width: 80,
+            height: 80,
             transform: [{ rotate: spin }],
           }}
           source={{
